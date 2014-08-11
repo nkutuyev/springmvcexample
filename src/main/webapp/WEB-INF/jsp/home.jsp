@@ -74,7 +74,7 @@
                     <h4 class="modal-title" id="modalLabel">Add Country</h4>
                   </div>
                     <div class="modal-body">
-                        <input id="name" class="form-control" name="name" placeholder="Enter Country Name"></input>
+                        <input id="name" class="form-control" placeholder="Enter Country Name"></input>
                     </div>
                     <div class="modal-body">
                         <select id="continent" class="form-control">
@@ -88,13 +88,13 @@
                         </select>
                     </div>
                     <div class="modal-body">
-                        <input type="number" id="population" class="form-control" placeholder="Enter Population"></input>
+                        <input id="population" class="form-control" placeholder="Enter Population"></input>
                     </div>
                     <div class="modal-body">
-                        <input type="number" id="gdp" class="form-control" placeholder="Enter GDP"></input>
+                        <input id="gdp" class="form-control" placeholder="Enter GDP"></input>
                     </div>
                     <div class="modal-body">
-                        <input type="number"  id="aggression" class="form-control" placeholder="Enter Aggression Level"></input>
+                        <input id="aggression" class="form-control" placeholder="Enter Aggression Level"></input>
                     </div>
                     <div class="modal-footer">
                         <button id="cancel-button" type="button" class="btn btn-default">Cancel</button>

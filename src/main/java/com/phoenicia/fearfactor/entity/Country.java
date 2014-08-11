@@ -34,21 +34,13 @@ import javax.persistence.Table;
 @Table(name = "country")
 public class Country implements Serializable {
     
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(length = 64, nullable = false)
     private String name;
-    @Column(nullable = false)
     private Integer population;
-    @Column(nullable = false)
     private Integer gdp;
-    @Column(nullable = false)
     private Integer aggression;
+    private Integer fearFactor;
     
-    @ManyToOne(optional = false, targetEntity = Continent.class)
-    @JoinColumn(name = "continent_id", nullable = false)
     private Continent continent;
 
     protected Country() { }
@@ -61,6 +53,8 @@ public class Country implements Serializable {
         this.continent = continent;
     }
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long getId() {
         return id;
     }
@@ -76,7 +70,8 @@ public class Country implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
-
+    
+    @Column(nullable = false)
     public Integer getPopulation() {
         return population;
     }
@@ -85,6 +80,7 @@ public class Country implements Serializable {
         this.population = population;
     }
 
+    @Column(nullable = false)
     public Integer getGdp() {
         return gdp;
     }
@@ -93,6 +89,7 @@ public class Country implements Serializable {
         this.gdp = gdp;
     }
 
+    @Column(nullable = false)
     public Integer getAggression() {
         return aggression;
     }
@@ -101,6 +98,8 @@ public class Country implements Serializable {
         this.aggression = aggression;
     }
 
+    @ManyToOne(optional = false, targetEntity = Continent.class)
+    @JoinColumn(name = "continent_id", nullable = false)
     public Continent getContinent() {
         return continent;
     }
@@ -109,9 +108,14 @@ public class Country implements Serializable {
         this.continent = continent;
     }
     
+    @Column(nullable = false)
     public Integer getFearFactor(){
-        int factor = (gdp/1000 + population/100) * aggression;
-        return factor;
+        this.fearFactor = (gdp/1000 + population/100) * aggression;
+        return this.fearFactor;
+    }
+
+    public void setFearFactor(Integer fearFactor) {
+        this.fearFactor = fearFactor;
     }
    
 }

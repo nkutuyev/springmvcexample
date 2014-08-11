@@ -1,10 +1,10 @@
 package com.phoenicia.fearfactor.repository;
 
 import com.phoenicia.fearfactor.entity.Continent;
-import com.phoenicia.fearfactor.entity.Country;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.TypedQuery;
+import javax.persistence.Query;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -13,19 +13,18 @@ import javax.persistence.TypedQuery;
 public class ContinentRepositoryImpl extends BaseHibernateRepository implements CustomContinentRepository {
 
     @Override
+    @Transactional(readOnly = true)
     public List<Continent> getContinentTotalFearFactor() {
-        TypedQuery<Continent> query = entityManager.createQuery("SELECT con FROM Continent con", Continent.class);
+        Query query = entityManager.createQuery(
+                "SELECT con, SUM(c.fearFactor) FROM Country c RIGHT JOIN c.continent con GROUP BY con.id");
+        List<Object[]> resultList = query.getResultList();
         List<Continent> list = new ArrayList<Continent>();
-        for(Continent continent: query.getResultList()){
-            TypedQuery<Country> cQuery = entityManager.createQuery(
-                    "SELECT con FROM Country con WHERE con.continent = :c", Country.class);
-            List<Country> countries = cQuery.setParameter("c", continent).getResultList();
-            int total = 0;
-            for(Country country: countries){
-                total += country.getFearFactor();
-            }
-            continent.setTotalFearFactor(total);
-            list.add(continent);
+        for(Object[] result: resultList){
+            Continent con = (Continent) result[0];
+            Long total = (Long)result[1];
+            total = total == null ? 0 : total;
+            con.setTotalFearFactor(total.intValue());
+            list.add(con);
         }
         return list;
     }
